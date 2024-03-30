@@ -114,8 +114,6 @@ Estimated Total Size (MB): 3.74
 - Albumentation transformations made interoperable with torchvision dataloaders by creating a custom class around `A.Compose(...)
 - Stopped and restarted training with fresh optimizer and OneCycleLR scheduler (with a lower max learning rate than the first training period) helped jumpstart the model from a local minima it was stuck in
 
-## Training Curves
+## Train-Test Loss & Accuracy Curves
 
-![Train Test Loss Curves](img/output.png)
-
-## Misclassified Images
+![](img/loss_curves.png)
