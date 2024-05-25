@@ -1,5 +1,7 @@
 # Data folders
 data/
+*.gz
+*-batches-py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
