@@ -178,8 +178,8 @@ def collate_fn(batch):
         "encoder_mask": torch.vstack(encoder_mask),                     
         "decoder_mask": torch.vstack(decoder_mask),
         "label": torch.vstack(label),
-        "src_text": torch.vstack(src_text),
-        "tgt_text": torch.vstack(tgt_text)
+        "src_text": src_text,
+        "tgt_text": tgt_text
     }
 
 def train_model(config):
@@ -212,9 +212,10 @@ def train_model(config):
     MAX_LR = config["lr"] * 10
     STEPS_PER_EPOCH = len(train_dataloader)
     scheduler = OneCycleLR(optimizer=optimizer, 
-                           max_lr=MAX_LR, 
+                           max_lr=MAX_LR,
+                           epochs=config["num_epochs"],
                            steps_per_epoch=STEPS_PER_EPOCH,
-                           pct_start=int(0.3*config['num_epochs'])/config['num_epochs'] if config['num_epochs'] != 1 else 0.5,
+                           pct_start=0.3,
                            div_factor=100,
                            three_phase=False,
                            final_div_factor=100,
@@ -281,7 +282,7 @@ def train_model(config):
             
             global_step+=1
             
-        run_validation(model, val_dataloader, tokenizer_src, tokenizer_tgt, config['seq_len'], device, writer, global_step)        
+        # run_validation(model, val_dataloader, tokenizer_src, tokenizer_tgt, config['seq_len'], device, writer, global_step)        
         
         model_filename = get_weights_file_path(config, f"{epoch:02d}")
         torch.save(
